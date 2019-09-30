@@ -1,10 +1,13 @@
 import System.Environment
 import qualified Data.Map as Map
 
+characters = ['0'..'9'] ++ ['a'..'z'] ++ ['A'..'Z']
+codes = ["-----", ".----", "..---", "...--", "....-", ".....", "-....", "--...", "---..", "----."] ++ [".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--.."] ++ [".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--.."]
+
 morseToAlphaMap :: Map.Map String Char
-morseToAlphaMap = Map.fromList $ zip [".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--.."] ['a'..'z']
+morseToAlphaMap = Map.fromList $ zip codes characters
 alphaToMorseMap :: Map.Map Char String
-alphaToMorseMap = Map.fromList $ zip ['a'..'z'] [".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--.."]
+alphaToMorseMap = Map.fromList $ zip characters codes
 
 alphaToMorse :: String -> String
 alphaToMorse sentence = unlines $ map wordToCode $ words sentence
@@ -13,7 +16,7 @@ alphaToMorse sentence = unlines $ map wordToCode $ words sentence
             unwords $ map (\c -> 
                     case Map.lookup c alphaToMorseMap of
                         Just code -> code
-                        Nothing -> error "Only alphabets and spaces."
+                        Nothing -> error "Only alphabets, numbers and spaces."
                 )
                 word
 
